@@ -320,21 +320,21 @@ class TestARBuilder(unittest.TestCase):
         test_ar = fl.getAR(self.default_args)
         ok_(isinstance(test_ar, NoAr))
 
-    def testbuildNoAR(self):
+    def testbuildLSTM(self):
         from cpc.model import CPCAR
         self.default_args.arMode = 'LSTM'
         test_ar = fl.getAR(self.default_args)
         ok_(isinstance(test_ar, CPCAR))
         ok_(isinstance(test_ar.baseNet, torch.nn.LSTM))
 
-    def testbuildNoAR(self):
+    def testbuildGRU(self):
         from cpc.model import CPCAR
         self.default_args.arMode = 'GRU'
         test_ar = fl.getAR(self.default_args)
         ok_(isinstance(test_ar, CPCAR))
         ok_(isinstance(test_ar.baseNet, torch.nn.GRU))
 
-    def testbuildNoAR(self):
+    def testbuildRNN(self):
         from cpc.model import CPCAR
         self.default_args.arMode = 'RNN'
         test_ar = fl.getAR(self.default_args)
