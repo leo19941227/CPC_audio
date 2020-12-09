@@ -452,7 +452,10 @@ def findAllSeqs(dirName,
     organization of the dataset.
 
     """
-    cache_path = os.path.join(dirName, '_seqs_cache.txt')
+    cache_dir = f'./cache/{dirName}/'
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_path = os.path.join(cache_dir, '_seqs_cache.txt')
+
     if loadCache:
         try:
             outSequences, speakers = torch.load(cache_path)
