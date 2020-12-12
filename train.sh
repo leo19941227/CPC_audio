@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH_AUDIO_FILES=../../datasets/LibriSpeech/
+PATH_AUDIO_FILES=/home/leo/d/datasets/LibriSpeech/
 TRAINING_SET=./libri_train_360.txt
 VAL_SET=./libri_dev.txt
 EXTENSION=flac
