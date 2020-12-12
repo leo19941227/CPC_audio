@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH_AUDIO_FILES=/share/corpus_tar/LibriSpeech/
+PATH_AUDIO_FILES=../../datasets/LibriSpeech/
 TRAINING_SET=./libri_train_360.txt
 VAL_SET=./libri_dev.txt
 EXTENSION=flac
