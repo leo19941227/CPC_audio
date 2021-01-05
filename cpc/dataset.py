@@ -7,6 +7,7 @@ import random
 import time
 import tqdm
 import torch
+import pickle
 import soundfile as sf
 from pathlib import Path
 from copy import deepcopy
@@ -92,12 +93,23 @@ class AudioBatchData(Dataset):
         random.shuffle(self.seqNames)
         start_time = time.time()
 
-        print("Checking length...")
-        allLength = self.reload_pool.map(extractLength, self.seqNames)
+        cache_name = f'./cache/length_of_{len(self.seqNames)}_seqs.pkl'
+        if os.path.isfile(cache_name):
+            print(f"Loading the prepared from cache {cache_name}.")
+            with open(cache_name, 'rb') as file:
+                allLength = pickle.load(file)
+        else:
+            print(f"Cache {cache_name} not found.")
+            print("Checking length...")
+            allLength = self.reload_pool.map(extractLength, self.seqNames) 
+
+            print(f"Saving the lengths to cache {cache_name}")
+            with open(cache_name, 'wb') as file:
+                pickle.dump(allLength, file)
 
         self.packageIndex, self.totSize = [], 0
         start, packageSize = 0, 0
-        for index, length in tqdm.tqdm(enumerate(allLength)):
+        for index, length in enumerate(allLength):
             packageSize += length
             if packageSize > self.MAX_SIZE_LOADED:
                 self.packageIndex.append([start, index])

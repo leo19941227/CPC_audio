@@ -6,8 +6,8 @@ VAL_SET=./libri_dev.txt
 EXTENSION=flac
 
 # for development (only use a small training subset)
-python -W ignore cpc/train.py --pathDB $PATH_AUDIO_FILES --pathTrain $TRAINING_SET --pathVal $VAL_SET --file_extension $EXTENSION --debug
+# python -W ignore cpc/train.py --pathDB $PATH_AUDIO_FILES --pathTrain $TRAINING_SET --pathVal $VAL_SET --file_extension $EXTENSION --debug
 
 # for actual pre-training
-# python -W ignore cpc/train.py --pathDB $PATH_AUDIO_FILES --pathTrain $TRAINING_SET --pathVal $VAL_SET --file_extension $EXTENSION
+python -W ignore cpc/train.py --pathDB $PATH_AUDIO_FILES --pathTrain $TRAINING_SET --pathVal $VAL_SET --file_extension $EXTENSION --max_size_loaded 40000000
 
