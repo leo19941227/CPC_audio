@@ -10,7 +10,7 @@ import torch
 import soundfile as sf
 from pathlib import Path
 from copy import deepcopy
-from torch.multiprocessing import Pool
+from torch.multiprocessing import Pool, get_context
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import Sampler, BatchSampler
 
@@ -49,7 +49,7 @@ class AudioBatchData(Dataset):
         self.dbPath = Path(path)
         self.sizeWindow = sizeWindow
         self.seqNames = [(s, self.dbPath / x) for s, x in seqNames]
-        self.reload_pool = Pool(nProcessLoader)
+        self.reload_pool = get_context('spawn').Pool(nProcessLoader)
 
         self.prepare()
         self.speakers = list(range(nSpeakers))

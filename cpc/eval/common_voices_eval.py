@@ -16,7 +16,7 @@ import sys
 import progressbar
 from pathlib import Path
 from torch.utils.data import Dataset, DataLoader
-from torch.multiprocessing import Pool
+from torch.multiprocessing import Pool, get_context
 from cpc.criterion.seq_alignment import get_seq_PER
 from cpc.criterion.seq_alignment import beam_search
 from cpc.feature_loader import loadModel
@@ -73,7 +73,7 @@ class SingleSequenceDataset(Dataset):
         start_time = time.time()
         to_load = [Path(self.pathDB) / x for _, x in self.seqNames]
 
-        with Pool(nprocess) as p:
+        with get_context('spawn').Pool(nprocess) as p:
             poolData = p.map(load, to_load)
 
         tmpData = []
@@ -311,7 +311,7 @@ def perStep(val_loader,
             data_per = [(predictions[b], sizeSeq[b], phone[b], sizePhone[b],
                          criterion.module.BLANK_LABEL) for b in range(bs)]
 
-            with Pool(bs) as p:
+            with get_context('spawn').Pool(bs) as p:
                 poolData = p.map(get_per, data_per)
             avgPER += sum([x for x in poolData])
             varPER += sum([x*x for x in poolData])

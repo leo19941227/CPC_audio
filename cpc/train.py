@@ -12,6 +12,7 @@ from copy import deepcopy
 import random
 import psutil
 import sys
+import tqdm
 
 import cpc.criterion as cr
 import cpc.model as model
@@ -77,7 +78,7 @@ def trainStep(dataLoader,
     n_examples = 0
     logs, lastlogs = {}, None
     iter = 0
-    for step, fulldata in enumerate(dataLoader):
+    for step, fulldata in tqdm.tqdm(enumerate(dataLoader), desc='train', dynamic_ncols=True):
         batchData, label = fulldata
         n_examples += batchData.size(0)
         batchData = batchData.cuda(non_blocking=True)
@@ -132,7 +133,7 @@ def valStep(dataLoader,
     cpcModel.eval()
     iter = 0
 
-    for step, fulldata in enumerate(dataLoader):
+    for step, fulldata in tqdm.tqdm(enumerate(dataLoader), desc='validate', dynamic_ncols=True):
 
         batchData, label = fulldata
 
@@ -268,7 +269,7 @@ def main(args):
         seqVal = filterSeqs(args.pathVal, seqNames)
 
     if args.debug:
-        seqTrain = seqTrain[-1000:]
+        seqTrain = seqTrain[-100:]
         seqVal = seqVal[-100:]
 
     phoneLabels, nPhones = None, None
